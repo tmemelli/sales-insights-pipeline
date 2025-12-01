@@ -25,42 +25,42 @@ O **Sales Insights Pipeline** é uma ferramenta de análise de dados de vendas d
 ```
 sales-insights-pipeline/
 │
-├── main.py                    # Ponto de entrada do pipeline
-├── requirements.txt           # Dependências do projeto
-├── .gitignore                # Arquivos ignorados pelo Git
+├── main.py                      # Ponto de entrada do pipeline
+├── requirements.txt             # Dependências do projeto
+├── .gitignore                   # Arquivos ignorados pelo Git
 │
-├── dados/                    # Módulo de carregamento
+├── dados/                       # Módulo de carregamento
 │   ├── __init__.py
-│   ├── carregador.py        # CarregadorDados - Leitura de CSV
-│   ├── dados_vendas.csv     # Arquivo principal de vendas
+│   ├── carregador.py            # CarregadorDados - Leitura de CSV
+│   ├── dados_vendas.csv         # Arquivo principal de vendas
 │   └── categorias_produtos.csv  # Categorias e margens
 │
-├── nucleo/                   # Módulo principal
+├── nucleo/                      # Módulo principal
 │   ├── __init__.py
-│   └── analisador.py        # AnalisadorVendas - Orquestrador
+│   └── analisador.py            # AnalisadorVendas - Orquestrador
 │
-├── processamento/            # Processamento de dados
+├── processamento/               # Processamento de dados
 │   ├── __init__.py
-│   ├── limpeza.py           # LimpezaDados - Validação e limpeza
-│   └── estatisticas.py      # EstatisticasVendas - Cálculo de KPIs
+│   ├── limpeza.py               # LimpezaDados - Validação e limpeza
+│   └── estatisticas.py          # EstatisticasVendas - Cálculo de KPIs
 │
-├── analise/                  # Análises e insights
+├── analise/                     # Análises e insights
 │   ├── __init__.py
-│   └── insights.py          # InsightsVendas - Geração de insights
+│   └── insights.py              # InsightsVendas - Geração de insights
 │
-├── visualizacao/             # Geração de gráficos
+├── visualizacao/                # Geração de gráficos
 │   ├── __init__.py
-│   └── graficos.py          # GraficosVendas - 7 tipos de gráficos
+│   └── graficos.py              # GraficosVendas - 7 tipos de gráficos
 │
-├── relatorio/                # Geração de relatórios
+├── relatorio/                   # Geração de relatórios
 │   ├── __init__.py
-│   └── gerador_html.py      # GeradorRelatorioHTML - Dashboard
+│   └── gerador_html.py          # GeradorRelatorioHTML - Dashboard
 │
-├── scripts/                  # Scripts auxiliares
+├── scripts/                     # Scripts auxiliares
 │   ├── __init__.py
-│   └── gerar_categorias.py  # CategoriaInferidor - Gera CSV de categorias
+│   └── gerar_categorias.py      # CategoriaInferidor - Gera CSV de categorias
 │
-└── output/                   # Saídas geradas (criado automaticamente)
+└── output/                      # Saídas geradas (criado automaticamente)
     ├── relatorio_vendas.html
     └── graficos/
         ├── receita_diaria.png
