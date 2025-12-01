@@ -441,7 +441,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Thiago Memelli**
 
 - GitHub: [@tmemelli](https://github.com/tmemelli)
-- LinkedIn: [Thiago Memelli](https://linkedin.com/in/tmemelli)
+- LinkedIn: [Thiago Memelli](https://linkedin.com/in/thiagomemelli)
 
 ## 🙏 Agradecimentos
 
