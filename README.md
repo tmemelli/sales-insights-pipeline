@@ -1,67 +1,456 @@
 # 📊 Sales Insights Pipeline
 
-> Sistema automatizado de análise de dados de vendas com geração de relatórios HTML profissionais.
+> Pipeline automatizado de análise de dados de vendas com geração de dashboards interativos em HTML
 
-## 🚀 Tecnologias
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Code Style](https://img.shields.io/badge/Code%20Style-POO-purple.svg)]()
 
-- Python 3.8+
-- Pandas
-- Matplotlib
-- Seaborn
+## 🎯 Sobre o Projeto
 
-## 📦 Instalação
+O **Sales Insights Pipeline** é uma ferramenta de análise de dados de vendas desenvolvida em Python, focada em automatizar o processo de extração, limpeza, análise e visualização de dados comerciais. O projeto utiliza princípios de Programação Orientada a Objetos (POO) para garantir código limpo, manutenível e escalável.
 
+### ✨ Principais Funcionalidades
+
+- 📁 **Carregamento Inteligente**: Validação automática de arquivos CSV com múltiplos encodings
+- 🧹 **Limpeza de Dados**: Tratamento de valores nulos, outliers e inconsistências
+- 📊 **Estatísticas Avançadas**: Cálculo de KPIs financeiros, curva ABC e análise temporal
+- 🔍 **Geração de Insights**: Identificação automática de padrões e tendências
+- 📈 **7 Visualizações**: Gráficos profissionais com Matplotlib e Seaborn
+- 📄 **Relatório HTML**: Dashboard executivo dark mode pronto para apresentação
+- 🏷️ **Categorização Automática**: Script para inferir categorias e margens de produtos
+
+## 🏗️ Arquitetura do Projeto
+
+```
+sales-insights-pipeline/
+│
+├── main.py                    # Ponto de entrada do pipeline
+├── requirements.txt           # Dependências do projeto
+├── .gitignore                # Arquivos ignorados pelo Git
+│
+├── dados/                    # Módulo de carregamento
+│   ├── __init__.py
+│   ├── carregador.py        # CarregadorDados - Leitura de CSV
+│   ├── dados_vendas.csv     # Arquivo principal de vendas
+│   └── categorias_produtos.csv  # Categorias e margens
+│
+├── nucleo/                   # Módulo principal
+│   ├── __init__.py
+│   └── analisador.py        # AnalisadorVendas - Orquestrador
+│
+├── processamento/            # Processamento de dados
+│   ├── __init__.py
+│   ├── limpeza.py           # LimpezaDados - Validação e limpeza
+│   └── estatisticas.py      # EstatisticasVendas - Cálculo de KPIs
+│
+├── analise/                  # Análises e insights
+│   ├── __init__.py
+│   └── insights.py          # InsightsVendas - Geração de insights
+│
+├── visualizacao/             # Geração de gráficos
+│   ├── __init__.py
+│   └── graficos.py          # GraficosVendas - 7 tipos de gráficos
+│
+├── relatorio/                # Geração de relatórios
+│   ├── __init__.py
+│   └── gerador_html.py      # GeradorRelatorioHTML - Dashboard
+│
+├── scripts/                  # Scripts auxiliares
+│   ├── __init__.py
+│   └── gerar_categorias.py  # CategoriaInferidor - Gera CSV de categorias
+│
+└── output/                   # Saídas geradas (criado automaticamente)
+    ├── relatorio_vendas.html
+    └── graficos/
+        ├── receita_diaria.png
+        ├── receita_mensal.png
+        ├── receita_dia_semana.png
+        ├── top_produtos.png
+        ├── distribuicao_ticket.png
+        ├── ticket_distribuicao_seaborn.png
+        └── heatmap_mes_semana.png
+```
+
+## 🚀 Instalação
+
+### Pré-requisitos
+
+- Python 3.8 ou superior
+- pip (gerenciador de pacotes Python)
+
+### Passo a Passo
+
+1. **Clone o repositório**
 ```bash
-# Clone o repositório
 git clone https://github.com/tmemelli/sales-insights-pipeline.git
 cd sales-insights-pipeline
+```
 
-# Crie um ambiente virtual
+2. **Crie um ambiente virtual** (recomendado)
+```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# OU
-.\venv\Scripts\Activate   # Windows
+```
 
-# Instale as dependências
+3. **Ative o ambiente virtual**
+
+Windows:
+```bash
+venv\Scripts\activate
+```
+
+Linux/Mac:
+```bash
+source venv/bin/activate
+```
+
+4. **Instale as dependências**
+```bash
 pip install -r requirements.txt
 ```
 
-## 🎯 Como Usar
+## 💻 Como Usar
+
+### Uso Básico
+
+1. **Coloque seus arquivos CSV** na pasta `dados/`
+   - `dados_vendas.csv` - Arquivo principal com as vendas
+   - `categorias_produtos.csv` - Arquivo opcional com categorias e margens
+
+2. **Execute o pipeline**
+```bash
+python main.py
+```
+
+3. **Visualize os resultados**
+   - Abra o arquivo `output/relatorio_vendas.html` no seu navegador
+
+### Uso Avançado
+
+#### Gerar Categorias Automaticamente
+
+Se você não tem o arquivo `categorias_produtos.csv`, pode gerá-lo automaticamente:
 
 ```bash
-# 1. Gere as categorias (primeira vez)
 python scripts/gerar_categorias.py
-
-# 2. Execute a análise completa
-python main.py
-
-# 3. Abra o relatório
-# Arquivo gerado: output/relatorio_vendas.html
 ```
 
-## 📁 Estrutura
+Este script:
+- ✅ Analisa todos os produtos em `dados_vendas.csv`
+- ✅ Infere categorias usando regex (Notebook, Mouse, SSD, etc.)
+- ✅ Atribui margens estimadas por categoria
+- ✅ Gera o arquivo `dados/categorias_produtos.csv`
 
+#### Código Personalizado
+
+```python
+from nucleo.analisador import AnalisadorVendas
+
+# Instancia o analisador
+analisador = AnalisadorVendas(caminho_csv='dados/dados_vendas.csv')
+
+# Executa o pipeline completo
+df_limpo, estatisticas, insights = analisador.executar()
+
+# Acesse os resultados
+print(f"GMV: R$ {estatisticas['gmv']:,.2f}")
+print(f"Total de transações: {estatisticas['total_transacoes']}")
 ```
-├── dados/              # Dados e carregamento
-├── processamento/      # Limpeza e estatísticas
-├── analise/           # Geração de insights
-├── visualizacao/      # Criação de gráficos
-├── relatorio/         # Geração de HTML
-├── nucleo/            # Orquestração do pipeline
-├── scripts/           # Scripts utilitários
-├── output/            # Relatórios e gráficos gerados
-└── main.py            # Ponto de entrada
+
+## 📊 Formato dos Dados
+
+### Arquivo Principal: `dados_vendas.csv`
+
+O arquivo de vendas deve conter as seguintes colunas:
+
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| `data` | date | Data da venda (formato: YYYY-MM-DD) |
+| `produto` | string | Nome do produto |
+| `valor` | float | Valor unitário do produto |
+| `quantidade` | float | Quantidade vendida |
+
+### Arquivo Auxiliar: `categorias_produtos.csv`
+
+Arquivo opcional para enriquecimento dos dados:
+
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| `produto` | string | Nome do produto |
+| `categoria_sugerida` | string | Categoria do produto |
+| `margem_sugerida` | float | Margem de lucro sugerida (0-1) |
+
+### Exemplo de CSV de Vendas
+
+```csv
+data,produto,valor,quantidade
+2024-01-29,Memória RAM 16GB,380.0,8.0
+2024-06-15,Mousepad,45.0,2.0
+2024-07-09,Webcam HD,280.0,2.0
+2024-12-11,Notebook Dell,3500.0,1.0
+2024-10-14,Mouse Logitech,85.5,6.0
 ```
 
-## 👨‍💻 Autor
+### Exemplo de CSV de Categorias
 
-**Thiago Memelli**
-- GitHub: [@tmemelli](https://github.com/tmemelli)
+```csv
+produto,categoria_sugerida,margem_sugerida
+Mousepad,Mousepad,0.4
+Webcam HD,Webcam,0.3
+Mouse Logitech,Mouse,0.35
+SSD 1TB,Armazenamento,0.25
+Memória RAM 16GB,Memória RAM,0.25
+```
+
+## 🔧 Tecnologias Utilizadas
+
+- **Python 3.8+** - Linguagem de programação
+- **Pandas 2.3.3** - Manipulação e análise de dados
+- **NumPy 2.3.5** - Computação numérica
+- **Matplotlib 3.10.7** - Visualização de dados estática
+- **Seaborn 0.13.2** - Visualização estatística avançada
+- **python-dateutil 2.9.0** - Manipulação de datas
+
+## 🛡️ Tratamento de Dados
+
+O pipeline é robusto e lida automaticamente com:
+
+- ✅ **Datas inválidas** - Identifica e trata valores como "data_incorreta"
+- ✅ **Valores numéricos inválidos** - Detecta e corrige entradas como "invalid"
+- ✅ **Valores faltantes** - Trata células vazias adequadamente
+- ✅ **Produtos com caracteres especiais** - Limpa nomes problemáticos
+- ✅ **Duplicatas** - Identifica e remove registros duplicados
+- ✅ **Outliers extremos** - Remove valores atípicos usando método IQR (3× desvio)
+- ✅ **Múltiplos encodings** - Suporte para UTF-8 e Latin-1
+
+### Exemplo de Dados Problemáticos Tratados
+
+O sistema consegue processar mesmo arquivos com problemas como:
+
+```csv
+data_incorreta,SSD 1TB,550.0,6.0          # Data inválida → removido
+2024-10-14,Mouse Logitech,invalid,6.0     # Valor inválido → removido
+2024-07-03,"Monitor LG 27""",1200.0,      # Quantidade vazia → removido
+###ERRO###,Outros,100.0,5.0               # Nome inválido → categorizado como "Outros"
+```
+
+## 🔄 Colunas Criadas Automaticamente
+
+Durante a limpeza, o pipeline cria automaticamente as seguintes colunas:
+
+### Colunas Financeiras
+- `receita` = valor × quantidade
+- `categoria` = categoria do produto (do CSV ou "Outros")
+- `margem` = margem de lucro (do CSV ou 0.20 padrão)
+- `lucro` = receita × margem
+
+### Colunas Temporais
+- `ano` = ano da venda
+- `mes` = mês da venda (1-12)
+- `dia_semana` = dia da semana (0=Segunda, 6=Domingo)
+- `dia_mes` = dia do mês (1-31)
+- `semana_ano` = semana do ano ISO (1-52)
+
+## 📈 Análises Disponíveis
+
+### Estatísticas Financeiras
+- **GMV (Gross Merchandise Value)** - Faturamento bruto total
+- **Lucro Estimado** - Baseado em margens por categoria
+- **Margem Média** - Percentual de lucro sobre GMV
+- **Ticket Médio** - Receita média por transação
+- **Receita Média Diária** - Faturamento diário médio
+- **Volume de Vendas** - Total de transações e unidades
+
+### Análises de Produtos
+- **Top Produtos por Receita** - Ranking dos mais vendidos
+- **Curva ABC** - Classificação por importância (A, B, C)
+- **Análise por Categoria** - Performance por tipo de produto
+- **Concentração de Vendas** - % de receita nos top produtos
+
+### Análises Temporais
+- **Receita Diária** - Evolução dia a dia
+- **Receita Mensal** - Faturamento por mês
+- **Melhor Dia da Semana** - Dia com maior receita acumulada
+- **Top 10 Dias** - Dias com picos de vendas
+- **Crescimento Percentual** - Variação entre primeiro e último mês
+- **Densidade Temporal** - % de dias com vendas no período
+
+### Qualidade dos Dados
+- **Dias com Vendas** - Quantos dias tiveram transações
+- **Dias no Período** - Total de dias analisados
+- **Cobertura Temporal** - Densidade de dados
+- **Registros Removidos** - Duplicatas, inválidos, outliers
+
+### Insights Automáticos (8 tipos)
+1. **Produto Campeão** - Produto com maior receita e sua participação
+2. **Melhor Dia da Semana** - Dia mais lucrativo
+3. **Melhor Mês** - Mês com maior faturamento
+4. **Crescimento/Queda** - Análise de tendência no período
+5. **Concentração (Curva ABC)** - Quantos produtos classe A geram X% da receita
+6. **Qualidade Temporal** - Avaliação da densidade de dados
+7. **Dia de Pico** - Dia individual com maior receita
+8. **Ticket Médio** - Análise se é alto/médio/baixo
+
+## 🎨 Visualizações Geradas
+
+O pipeline gera automaticamente **7 gráficos** em PNG:
+
+### 1. **Receita Diária** (`receita_diaria.png`)
+- Gráfico de linha mostrando evolução diária da receita
+- Identifica tendências e sazonalidades
+
+### 2. **Receita Mensal** (`receita_mensal.png`)
+- Gráfico de barras com faturamento por mês
+- Comparação entre meses do ano
+
+### 3. **Receita por Dia da Semana** (`receita_dia_semana.png`)
+- Gráfico de barras mostrando qual dia da semana vende mais
+- Útil para planejamento de promoções
+
+### 4. **Top Produtos** (`top_produtos.png`)
+- Barras horizontais com os 10 produtos mais vendidos
+- Ranking por receita total
+
+### 5. **Distribuição do Ticket** (`distribuicao_ticket.png`)
+- Boxplot mostrando distribuição de valores por transação
+- Identifica outliers e ticket médio
+
+### 6. **Distribuição do Ticket (Seaborn)** (`ticket_distribuicao_seaborn.png`)
+- Histograma + KDE (densidade) com estilo premium
+- Mostra a distribuição suavizada dos valores
+
+### 7. **Heatmap Temporal** (`heatmap_mes_semana.png`)
+- Mapa de calor: Dia da Semana × Mês
+- Identifica padrões sazonais complexos
+
+## 📊 Estrutura das Classes
+
+### `CarregadorDados` (dados/carregador.py)
+```python
+# Responsável por carregar e validar arquivos CSV
+métodos:
+  - validar_arquivo() → bool
+  - carregar() → DataFrame
+  - info_arquivo() → dict
+```
+
+### `LimpezaDados` (processamento/limpeza.py)
+```python
+# Limpa, valida e enriquece os dados
+métodos:
+  - limpar(df) → DataFrame
+  - validar_colunas(df)
+  - remover_duplicatas(df) → DataFrame
+  - converter_tipos(df) → DataFrame
+  - remover_registros_invalidos(df) → DataFrame
+  - remover_outliers_extremos(df) → DataFrame
+  - criar_features_derivadas(df) → DataFrame
+  - aplicar_categorias(df) → DataFrame
+  - get_relatorio() → dict
+```
+
+### `EstatisticasVendas` (processamento/estatisticas.py)
+```python
+# Calcula KPIs financeiros, produtos e sazonalidade
+métodos:
+  - calcular(df) → dict
+  - get_resultados() → dict
+```
+
+### `InsightsVendas` (analise/insights.py)
+```python
+# Gera insights automáticos baseados nas estatísticas
+métodos:
+  - gerar(df, estatisticas) → dict
+```
+
+### `GraficosVendas` (visualizacao/graficos.py)
+```python
+# Cria visualizações e salva como PNG
+métodos:
+  - gerar_todos(df) → dict
+  - grafico_receita_diaria(df) → Path
+  - grafico_receita_mensal(df) → Path
+  - grafico_receita_por_dia_semana(df) → Path
+  - grafico_top_produtos(df) → Path
+  - grafico_distribuicao_ticket(df) → Path
+  - grafico_distribuicao_ticket_seaborn(df) → Path
+  - grafico_heatmap_mes_semana(df) → Path
+```
+
+### `GeradorRelatorioHTML` (relatorio/gerador_html.py)
+```python
+# Gera dashboard HTML executivo
+métodos:
+  - gerar(df, estatisticas, insights, caminhos_graficos) → Path
+```
+
+### `AnalisadorVendas` (nucleo/analisador.py)
+```python
+# Orquestra todo o pipeline
+métodos:
+  - __init__(caminho_csv=None)
+  - executar() → tuple[DataFrame, dict, dict]
+```
+
+### `CategoriaInferidor` (scripts/gerar_categorias.py)
+```python
+# Script auxiliar para gerar categorias automaticamente
+métodos:
+  - inferir_categoria(produto) → str
+  - gerar_csv(df) → DataFrame
+```
+
+## 🧪 Testes
+
+Para executar os testes (quando implementados):
+
+```bash
+python -m pytest tests/
+```
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Siga estas etapas:
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFuncionalidade`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
+5. Abra um Pull Request
+
+## 📝 Roadmap
+
+- [ ] Adicionar suporte a múltiplos formatos de arquivo (Excel, JSON, Parquet)
+- [ ] Implementar API REST com FastAPI para consumo dos dados
+- [ ] Dashboard web interativo com Streamlit ou Dash
+- [ ] Integração com banco de dados (PostgreSQL, MongoDB)
+- [ ] Sistema de alertas automáticos por email
+- [ ] Exportação de relatórios em PDF
+- [ ] Machine Learning para previsão de vendas (Prophet, ARIMA)
+- [ ] Testes unitários completos com pytest
+- [ ] CI/CD com GitHub Actions
+- [ ] Dockerização do projeto
 
 ## 📄 Licença
 
-MIT License
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👤 Autor
+
+**Thiago Memelli**
+
+- GitHub: [@tmemelli](https://github.com/tmemelli)
+- LinkedIn: [Thiago Memelli](https://linkedin.com/in/tmemelli)
+
+## 🙏 Agradecimentos
+
+- Comunidade Python pela excelente documentação
+- Bibliotecas open source que tornam este projeto possível
+- Contribuidores e usuários do projeto
 
 ---
 
-*Projeto em desenvolvimento - Documentação completa em breve*
+⭐ **Se este projeto foi útil para você, considere dar uma estrela!**
+
+**Desenvolvido com ❤️ e Python**
